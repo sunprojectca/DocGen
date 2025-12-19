@@ -1,0 +1,188 @@
+# Python Project Template for DocGen
+# Rename to pyproject.toml to use
+
+[build-system]
+requires = ["hatchling>=1.25.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "docgen"
+version = "0.1.0"
+description = "AI-Powered Universal Code Documentation Generator"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+    { name = "Your Name", email = "your.email@example.com" }
+]
+keywords = ["documentation", "ai", "code-analysis", "mermaid"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+
+dependencies = [
+    # AI/LLM Integration - Choose one or both
+    "openai>=1.52.0",           # OpenAI API (GPT-4, etc.)
+    "anthropic>=0.40.0",        # Anthropic API (Claude)
+
+    # Code Analysis & Parsing
+    "tree-sitter>=0.23.0",      # Universal code parser (40+ languages)
+    "pygments>=2.18.0",         # Syntax highlighting & lexical analysis
+
+    # Markdown & Documentation
+    "markdown-it-py>=3.0.0",    # Fast markdown parser
+
+    # File System & I/O
+    "pathspec>=0.12.0",         # .gitignore pattern matching
+
+    # CLI Interface - Choose one
+    "click>=8.1.7",             # Traditional CLI framework
+    "rich>=13.9.0",             # Beautiful terminal output
+
+    # Configuration & Validation
+    "pydantic>=2.10.0",         # Data validation & settings
+    "pydantic-settings>=2.6.0", # Environment-based settings
+    "python-dotenv>=1.0.0",     # .env file support
+]
+
+[project.optional-dependencies]
+# Development dependencies
+dev = [
+    "pytest>=8.3.0",            # Testing framework
+    "pytest-cov>=6.0.0",        # Coverage reporting
+    "pytest-asyncio>=0.24.0",   # Async test support
+    "black>=24.10.0",           # Code formatting
+    "ruff>=0.8.0",              # Fast linting & formatting
+    "mypy>=1.13.0",             # Static type checking
+    "pre-commit>=4.0.0",        # Git hooks
+]
+
+# Advanced parsing (add if needed)
+parsing = [
+    "libcst>=1.5.0",            # Python CST manipulation
+]
+
+# File watching (add if implementing watch mode)
+watch = [
+    "watchdog>=5.0.0",          # File system events
+]
+
+# All optional dependencies
+all = ["docgen[dev,parsing,watch]"]
+
+[project.scripts]
+docgen = "docgen.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/sunprojectca/DocGen"
+Documentation = "https://github.com/sunprojectca/DocGen#readme"
+Repository = "https://github.com/sunprojectca/DocGen"
+Issues = "https://github.com/sunprojectca/DocGen/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/docgen"]
+
+# ============================================
+# Tool Configurations
+# ============================================
+
+[tool.black]
+line-length = 100
+target-version = ["py311", "py312", "py313"]
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # pyflakes
+    "I",      # isort
+    "B",      # flake8-bugbear
+    "C4",     # flake8-comprehensions
+    "UP",     # pyupgrade
+    "ARG",    # flake8-unused-arguments
+    "SIM",    # flake8-simplify
+    "S",      # flake8-bandit (security)
+]
+ignore = [
+    "E501",   # line too long (handled by black)
+    "B008",   # do not perform function calls in argument defaults
+    "S101",   # use of assert detected
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*" = ["S", "ARG"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--cov=docgen",
+    "--cov-report=term-missing:skip-covered",
+    "--cov-report=html",
+    "--cov-report=xml",
+]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.coverage.run]
+branch = true
+source = ["docgen"]
+omit = [
+    "*/tests/*",
+    "*/test_*.py",
+    "*/__pycache__/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "@abstractmethod",
+]
