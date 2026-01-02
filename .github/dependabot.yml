@@ -1,0 +1,74 @@
+# Dependabot configuration for automated dependency updates
+# Supports multiple package ecosystems - uncomment the one you use
+
+version: 2
+updates:
+  # Python dependencies (uncomment when using Python)
+  # - package-ecosystem: "pip"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"
+  #     day: "monday"
+  #     time: "09:00"
+  #   open-pull-requests-limit: 10
+  #   reviewers:
+  #     - "sunprojectca"
+  #   assignees:
+  #     - "sunprojectca"
+  #   labels:
+  #     - "dependencies"
+  #     - "python"
+  #   versioning-strategy: increase
+  #   allow:
+  #     - dependency-type: "all"
+  #   ignore:
+  #     # Ignore major version updates that might break things
+  #     # - dependency-name: "package-name"
+  #     #   update-types: ["version-update:semver-major"]
+
+  # Node.js dependencies (uncomment when using Node.js/npm)
+  # - package-ecosystem: "npm"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"
+  #     day: "monday"
+  #     time: "09:00"
+  #   open-pull-requests-limit: 10
+  #   reviewers:
+  #     - "sunprojectca"
+  #   assignees:
+  #     - "sunprojectca"
+  #   labels:
+  #     - "dependencies"
+  #     - "javascript"
+  #   versioning-strategy: increase
+
+  # Rust dependencies (uncomment when using Rust/Cargo)
+  # - package-ecosystem: "cargo"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"
+  #     day: "monday"
+  #     time: "09:00"
+  #   open-pull-requests-limit: 10
+  #   reviewers:
+  #     - "sunprojectca"
+  #   assignees:
+  #     - "sunprojectca"
+  #   labels:
+  #     - "dependencies"
+  #     - "rust"
+
+  # GitHub Actions (always enabled)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "sunprojectca"
+    labels:
+      - "dependencies"
+      - "ci-cd"
